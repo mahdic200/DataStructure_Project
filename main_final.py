@@ -1,4 +1,4 @@
-test = {
+graph = {
     'a' : [['b', 3, 4], ['c', 4, 3]],
     'b' : [['a', 3, 2], ['d', 2, 3], ['e', 5, 4]],
     'c' : [['a', 4, 3], ['d', 3, 2]],
@@ -15,15 +15,15 @@ finalResult = []
 
 isEverythingDone = False
 while not isEverythingDone:
-    temp = test['e']
+    temp = graph['e']
     tempKey = 'e'
-    startPoint = test['e']
+    startPoint = graph['e']
     parentPoint = None
-    endPoint = test['c']
+    endPoint = graph['c']
     endPointKey = 'c'
 
     tempIsEverythingDone = True
-    for k in test['e']:
+    for k in graph['e']:
         if k[0] not in blockList:
             tempIsEverythingDone = False
             print('everything done, blockList : ', blockList)
@@ -61,7 +61,7 @@ while not isEverythingDone:
             if parentPoint is None:
                 temp = startPoint
             else:
-                temp = test[parentPoint]
+                temp = graph[parentPoint]
         elif allBlocked:
             print('all items are blocked , current point is : ', tempKey)
             blockList.append(tempKey)
@@ -70,7 +70,7 @@ while not isEverythingDone:
                 temp = startPoint
             else:
                 print('temp returned to parentPoint !, parentPoint is : ', tempKey)
-                temp = test[parentPoint]
+                temp = graph[parentPoint]
 
 
         distanceTemp = [1, 1000000000000000000]
@@ -82,7 +82,7 @@ while not isEverythingDone:
             print('temp is changed to next item ! temp is : ', distanceTemp[0])
             result.append([tempKey, distanceTemp[0], distanceTemp[1]])
             parentPoint = tempKey
-            temp = test[distanceTemp[0]]
+            temp = graph[distanceTemp[0]]
             tempKey = distanceTemp[0]
         else:
             print('long distance failed ')
