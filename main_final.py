@@ -103,6 +103,6 @@ for finalresult in finalResult:
     if ktemp < temp:
         temp = ktemp
         answer = finalresult
-    print('result is : ', finalresult)
+    print('possible ways : ', finalresult)
 print('and the answer with points : ', answer)
 print('result is : ', temp)
