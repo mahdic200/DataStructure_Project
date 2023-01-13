@@ -15,8 +15,8 @@ finalResult = []
 
 isEverythingDone = False
 while not isEverythingDone:
-    temp = graph['e']
-    tempKey = 'e'
+    currentPoint = graph['e']
+    currentPointKey = 'e'
     startPoint = graph['e']
     parentPoint = None
     endPoint = graph['c']
@@ -37,12 +37,13 @@ while not isEverythingDone:
         
     result = []
 
-    while temp != endPoint:
+    # main body of the program
+    while currentPoint != endPoint:
         isDone = False
-        for i in temp:
-            if endPointKey in i:
+        for relatedPoint in currentPoint:
+            if endPointKey in relatedPoint:
                 print('found a straight way to endPointKey !')
-                result.append([tempKey, i[0], i[1]])
+                result.append([currentPointKey, relatedPoint[0], relatedPoint[1] / relatedPoint[2]])
                 isDone = True
                 break
         if isDone:
@@ -50,44 +51,44 @@ while not isEverythingDone:
 
 
         allBlocked = True
-        for item in temp:
+        for item in currentPoint:
             if (item[0] not in blockList) and (item[0] != parentPoint):
                 allBlocked = False
                 break
-        #  check if all items in temp are blocked
-        if len(temp) == 1 and temp[0][0] == parentPoint:
-            print('temp just has one item inside it and its parentPoint ! temp is blocked !')
-            blockList.append(tempKey)
+        #  check if all items in currentPoint are blocked
+        if len(currentPoint) == 1 and currentPoint[0][0] == parentPoint:
+            print('currentPoint just has one item inside it and its parentPoint ! currentPoint is blocked !')
+            blockList.append(currentPointKey)
             if parentPoint is None:
-                temp = startPoint
+                currentPoint = startPoint
             else:
-                temp = graph[parentPoint]
+                currentPoint = graph[parentPoint]
         elif allBlocked:
-            print('all items are blocked , current point is : ', tempKey)
-            blockList.append(tempKey)
+            print('all items are blocked , current point is : ', currentPointKey)
+            blockList.append(currentPointKey)
             if parentPoint is None:
-                print('temp returned to startPoint !')
-                temp = startPoint
+                print('currentPoint returned to startPoint !')
+                currentPoint = startPoint
             else:
-                print('temp returned to parentPoint !, parentPoint is : ', tempKey)
-                temp = graph[parentPoint]
+                print('currentPoint returned to parentPoint !, parentPoint is : ', currentPointKey)
+                currentPoint = graph[parentPoint]
 
 
-        distanceTemp = [1, 1000000000000000000]
-        for NextItemTemp in temp:
+        distanceTemp = [1, 1000000000000000000, 1]
+        for NextItemTemp in currentPoint:
             if (NextItemTemp[0] not in blockList) and (NextItemTemp[0] != parentPoint):
-                if NextItemTemp[1] < distanceTemp[1]:
+                if (NextItemTemp[1] / NextItemTemp[2]) < (distanceTemp[1] / distanceTemp[2]):
                     distanceTemp = NextItemTemp
         if distanceTemp[0] != 1:
-            print('temp is changed to next item ! temp is : ', distanceTemp[0])
-            result.append([tempKey, distanceTemp[0], distanceTemp[1]])
-            parentPoint = tempKey
-            temp = graph[distanceTemp[0]]
-            tempKey = distanceTemp[0]
+            print('currentPoint is changed to next item ! currentPoint is : ', distanceTemp[0])
+            result.append([currentPointKey, distanceTemp[0], distanceTemp[1] / distanceTemp[2]])
+            parentPoint = currentPointKey
+            currentPoint = graph[distanceTemp[0]]
+            currentPointKey = distanceTemp[0]
         else:
             print('long distance failed ')
-            blockList.append(tempKey)
-            temp = startPoint
+            blockList.append(currentPointKey)
+            currentPoint = startPoint
     if len (result) >= 2:
         print('result len 01 is blocked : ', result[1][0])
         print('blocklist is  : ', blockList)
@@ -95,11 +96,13 @@ while not isEverythingDone:
     finalResult.append(result)
 
 temp = 1000000
-for finalresulta in finalResult:
+for finalresult in finalResult:
     ktemp = 0
-    for j in finalresulta:
+    for j in finalresult:
         ktemp += j[2]
     if ktemp < temp:
         temp = ktemp
-    print('result is : ', finalresulta)
-print('result is : ', ktemp)
+        answer = finalresult
+    print('result is : ', finalresult)
+print('and the answer with points : ', answer)
+print('result is : ', temp)
