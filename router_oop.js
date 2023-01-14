@@ -122,6 +122,8 @@ class Router
     fire()
     {
         this.searchRoute();
+
+        
         // console.log(this.allRoutes);
     }
 
