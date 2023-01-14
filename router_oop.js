@@ -122,9 +122,43 @@ class Router
     fire()
     {
         this.searchRoute();
+    }
 
-        
-        // console.log(this.allRoutes);
+    showResults()
+    {
+        console.log("\n\ncongrates !\n\n");
+        console.log(this.allRoutes);
+
+        let kasr, totals_final, answer, totalDistance, totalTime, totals, temp;
+        if (this.allRoutes != null) {
+            totalDistance = 0
+            totalTime = 0
+            
+            temp = 10000000000000;
+            for (const route of this.allRoutes) {
+                for (const routePart of route) {
+                    totalDistance += routePart[3]
+                    totalTime += routePart[2]
+                }
+                kasr = totalTime / totalDistance
+                console.log("total distance : ", totalDistance, "\ntotal time : ", totalTime)
+                console.log("route is : ", route, "\nmeasured quantity is : ", kasr)
+                if (kasr < temp) {
+                    temp = kasr
+                    answer = route
+                    totals_final = [totalTime, totalDistance]
+                }
+            }
+
+        }
+        else {
+            answer = null
+            kasr = "Infinity"
+            totals_final = [null, null]
+        }
+        console.log("*****************************\n")
+        console.log("the best answer is : ", answer, "\nmeasured quantity is : ", kasr)
+        console.log("\ntotal time : ", totals_final[0], "\ntotal distance : ", totals_final[1])
     }
 
 
@@ -145,3 +179,4 @@ let router = new Router(graph, 'e', 'c');
 
 
 router.fire();
+router.showResults();
