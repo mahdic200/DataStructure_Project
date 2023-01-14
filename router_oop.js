@@ -129,7 +129,7 @@ class Router
         console.log("\n\ncongrates !\n\n");
         console.log(this.allRoutes);
 
-        let scale, totals_final, answer, totalDistance, totalTime, smallestDistanceObject, smallestScaleObject;
+        let scale, totalDistance, totalTime, smallestDistanceObject, smallestScaleObject, smallestTimeObject;
         if (this.allRoutes != null) {
             totalDistance = 0
             totalTime = 0
@@ -174,9 +174,12 @@ class Router
         console.log("smallestScaleObject : ", smallestScaleObject);
 
 
-        let finalAnswerObject;
+        let finalAnswerObject, noneScaleTemp;
         finalAnswerObject = smallestScaleObject;
-        if (smallestDistanceObject["scale"] <= 2 && (smallestDistanceObject["totalDistance"] / smallestScaleObject["totalDistance"]) <= 0.5 ) {
+        if () {
+
+        }
+        if (smallestDistanceObject["scale"] <= 5 && (smallestDistanceObject["totalDistance"] / smallestScaleObject["totalDistance"]) <= 0.7 ) {
             finalAnswerObject = smallestDistanceObject;
         }
 
