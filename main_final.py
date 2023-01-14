@@ -28,16 +28,13 @@ while not isEverythingDone:
             tempIsEverythingDone = False
             print('everything done, blockList : ', blockList)
             print(k[0] in blockList)
+
+
     if tempIsEverythingDone:
         break
 
-
-
-
-        
-    result = []
-
     # main body of the program
+    result = []
     while currentPoint != endPoint:
         isDone = False
         for relatedPoint in currentPoint:
@@ -56,6 +53,7 @@ while not isEverythingDone:
                 allBlocked = False
                 break
         #  check if all items in currentPoint are blocked
+        
         if len(currentPoint) == 1 and currentPoint[0][0] == parentPoint:
             print('currentPoint just has one item inside it and its parentPoint ! currentPoint is blocked !')
             blockList.append(currentPointKey)
@@ -89,11 +87,13 @@ while not isEverythingDone:
             print('long distance failed ')
             blockList.append(currentPointKey)
             currentPoint = startPoint
+    
     if len (result) >= 2:
         print('result len 01 is blocked : ', result[1][0])
         print('blocklist is  : ', blockList)
         blockList.append(result[1][0])
     finalResult.append(result)
+    # end of main body
 
 temp = 1000000
 for finalresult in finalResult:
