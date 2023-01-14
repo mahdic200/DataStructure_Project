@@ -130,12 +130,25 @@ class Router
         console.log(this.allRoutes);
 
         let scale, totalDistance, totalTime, smallestDistanceObject, smallestTimeObject;
+        smallestDistanceObject = {
+            "totalDistance": "Infinite",
+            "totalTime": "Infinite",
+            "scale": null,
+            "route": null
+        }
+        smallestTimeObject = {
+            "totalDistance": "Infinite",
+            "totalTime": "Infinite",
+            "scale": null,
+            "route": null
+        }
+
         if (this.allRoutes != null) {
             totalDistance = 0
             totalTime = 0
 
-            smallestDistanceObject = {"totalDistance":10000000000};
-            smallestTimeObject = {"totalTime":10000000000};
+            smallestDistanceObject["totalDistance"] = 10000000000;
+            smallestTimeObject["totalTime"] = 10000000000;
             for (const route of this.allRoutes) {
                 for (const routePart of route) {
                     totalDistance += routePart[3]
@@ -149,6 +162,7 @@ class Router
                 if (totalDistance < smallestDistanceObject["totalDistance"]) {
                     smallestDistanceObject["totalDistance"] = totalDistance;
                     smallestDistanceObject["totalTime"] = totalTime;
+                    smallestDistanceObject["scale"] = scale;
                     smallestDistanceObject["route"] = route;
                 }
                 if (totalTime < smallestTimeObject["totalTime"]) {
@@ -160,17 +174,6 @@ class Router
             }
 
         }
-        else {
-            smallestDistanceObject["totalDistance"] = "Infinite";
-            smallestDistanceObject["totalTime"] = "Infinite";
-            smallestDistanceObject["scale"] = null;
-            smallestDistanceObject["route"] = null;
-            
-            smallestTimeObject["totalDistance"] = "Infinite";
-            smallestTimeObject["totalTime"] = "Infinite";
-            smallestTimeObject["scale"] = null;
-            smallestTimeObject["route"] = null;
-        }
         console.log("smallestDistanceObject : ", smallestDistanceObject);
         console.log("smallestTimeObject : ", smallestTimeObject);
 
@@ -178,19 +181,11 @@ class Router
         let finalAnswerObject;
         finalAnswerObject = smallestTimeObject;
         console.log("finalAnswerObject : ", finalAnswerObject)
-        // let alpha = smallestTimeObject["totalDistance"] / smallestDistanceObject["totalDistance"];
-        // let beta = smallestDistanceObject["totalTime"] / smallestTimeObject["totalTime"];
-        // if ((alpha >= 1 && alpha <= 1.3) && (beta >= 1 && beta < 1.3)) {
-        //     finalAnswerObject = smallestDistanceObject;
-        // }
         
         let alpha = smallestDistanceObject["scale"] < smallestTimeObject["scale"];
         if (alpha) {
             finalAnswerObject = smallestDistanceObject;
         }
-
-
-
         console.log("*****************************\n")
         console.log("the best route is : ", finalAnswerObject["route"], "\nmeasured scale is : ", finalAnswerObject["scale"])
         console.log("\ntotal time : ", finalAnswerObject["totalTime"], "\ntotal distance : ", finalAnswerObject["totalDistance"])

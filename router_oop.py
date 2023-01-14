@@ -83,31 +83,60 @@ class Router:
         print("\n\ncongrates !\n\n")
         for k in self.allRoutes:
             print(k, '\n')
+        smallestDistanceObject = {
+            "totalDistance": "Infinite",
+            "totalTime": "Infinite",
+            "scale": None,
+            "route": None
+        }
+        smallestTimeObject = {
+            "totalDistance": "Infinite",
+            "totalTime": "Infinite",
+            "scale": None,
+            "route": None
+        }
 
         if self.allRoutes is not None:
             totalDistance = 0
             totalTime = 0
 
-            temp = 1000000000000000000
+            smallestDistanceObject["totalDistance"] = 10000000000
+            smallestTimeObject["totalTime"] = 10000000000
             for route in self.allRoutes:
                 for routePart in route:
                     totalDistance += routePart[3]
                     totalTime += routePart[2]
-                totals = [totalTime, totalDistance]
-                kasr = totalTime / totalDistance
-                print("the best answer is : ", route, "\nmeasured quantity is : ", kasr)
+                
+                scale = totalTime / totalDistance
+                
                 print("total distance : ", totalDistance, "\ntotal time : ", totalTime)
-                if (kasr < temp):
-                    temp = kasr
-                    answer = route
-                    totals_final = totals
-        else:
-            answer = None
-            kasr = "Infinity"
-            totals_final = [None, None]
-        print("*********\nthe best answer is : ")
-        print("the best answer is : ", answer, "\nmeasured quantity is : ", kasr)
-        print("total distance : ", totals_final[1], "\ntotal time : ", totals_final[0])
+                print("route is : ", route, "\nscale is : ", scale)
+                if (totalDistance < smallestDistanceObject["totalDistance"]):
+                    smallestDistanceObject["totalDistance"] = totalDistance
+                    smallestDistanceObject["totalTime"] = totalTime
+                    smallestDistanceObject["scale"] = scale
+                    smallestDistanceObject["route"] = route
+
+                if (totalTime < smallestTimeObject["totalTime"]):
+                    smallestTimeObject["totalDistance"] = totalDistance
+                    smallestTimeObject["totalTime"] = totalTime
+                    smallestTimeObject["scale"] = scale
+                    smallestTimeObject["route"] = route
+
+        print("smallestDistanceObject : ", smallestDistanceObject)
+        print("smallestTimeObject : ", smallestTimeObject)
+
+
+        finalAnswerObject = smallestTimeObject
+        print("finalAnswerObject : ", finalAnswerObject)
+        
+        alpha = smallestDistanceObject["scale"] < smallestTimeObject["scale"]
+        if alpha:
+            finalAnswerObject = smallestDistanceObject
+        
+        print("*****************************\n")
+        print("the best route is : ", finalAnswerObject["route"], "\nmeasured scale is : ", finalAnswerObject["scale"])
+        print("\ntotal time : ", finalAnswerObject["totalTime"], "\ntotal distance : ", finalAnswerObject["totalDistance"])
 
         
         
