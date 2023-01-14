@@ -28,22 +28,31 @@ class Router
     searchRoute(pointsData = {"currentPointKey":this.startPointKey, "parentPointKey":null, "routeHistory":[]})
     {
         console.log("\n\n**************\nfunction call !\n**************")
-        if (this.counter > this.breakPoint)
-        {
-            console.log("****************\n")
-            console.log("too much call for this function !")
-            console.log("****************\n")
-            return false;
-        }
+        // if (this.counter > this.breakPoint)
+        // {
+        //     console.log("****************\n")
+        //     console.log("too much call for this function !")
+        //     console.log("****************\n")
+        //     return false;
+        // }
 
         this.counter++;
 
         var currentPoint, parentPointKey, currentPointKey;
-        let routeHistory;
+        let routeHistory, routeHistoryKeys;
         currentPoint = this.graph[pointsData["currentPointKey"]];
         currentPointKey = pointsData["currentPointKey"];
         parentPointKey = pointsData["parentPointKey"];
         routeHistory = pointsData["routeHistory"];
+        
+        routeHistoryKeys = new Array()
+
+        routeHistory.forEach(routeDetail => {
+            routeHistoryKeys.push(routeDetail[0])
+        });
+        if (routeHistory.length > 0) {routeHistoryKeys.push(routeHistory[routeHistory.length - 1][1])}
+
+        console.log("routeHistoryKeys : \n", routeHistoryKeys)
 
         console.log('current point : ', pointsData["currentPointKey"], ' parentPointKey : ', parentPointKey, ' routeHistory : \n', routeHistory)
 
@@ -85,7 +94,7 @@ class Router
         if (isThisWork) {console.log("this mother fucker did not consider upper return :)")};
         for (const relatedPoint of currentPoint) {
             let temp = new Array();
-            if ((relatedPoint[0] != parentPointKey) && (relatedPoint[0] != currentPointKey))
+            if (!routeHistoryKeys.includes(relatedPoint[0]))
             {
                 for (let i = 0; i < routeHistory.length; i++) {
                     temp[i] = routeHistory[i];
