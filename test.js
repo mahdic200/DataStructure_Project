@@ -1,18 +1,5 @@
-let graph = {
-    'a' : [['b', 3, 4], ['c', 4, 3]],
-    'b' : [['a', 3, 2], ['d', 2, 3], ['e', 5, 4]],
-    'c' : [['a', 4, 3], ['d', 3, 2]],
-    'd' : [['c', 3, 2], ['b', 2, 4], ['e', 6, 7]],
-    'e' : [['b', 5, 4], ['d', 6, 5], ['g', 1, 1]],
-    'f' : [['b', 6, 5], ['g', 3, 2]],
-    'g' : [['e', 1, 2], ['f', 3, 4]],
-};
+let myObject = {"total" : 100000000};
 
-let myArray = new Array();
+myObject["test"] = 120;
 
-myArray.push([1])
-
-console.log(myArray)
-
-
-
+console.log(myObject);
