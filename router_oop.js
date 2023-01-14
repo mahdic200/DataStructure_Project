@@ -129,57 +129,63 @@ class Router
         console.log("\n\ncongrates !\n\n");
         console.log(this.allRoutes);
 
-        let scale, totalDistance, totalTime, smallestDistanceObject, smallestScaleObject, smallestTimeObject;
+        let scale, totalDistance, totalTime, smallestDistanceObject, smallestTimeObject;
         if (this.allRoutes != null) {
             totalDistance = 0
             totalTime = 0
 
             smallestDistanceObject = {"totalDistance":10000000000};
-            smallestScaleObject = {"scale":10000000000};
+            smallestTimeObject = {"totalTime":10000000000};
             for (const route of this.allRoutes) {
                 for (const routePart of route) {
                     totalDistance += routePart[3]
                     totalTime += routePart[2]
                 }
+                
                 scale = totalTime / totalDistance
+
                 console.log("total distance : ", totalDistance, "\ntotal time : ", totalTime)
                 console.log("route is : ", route, "\nmeasured quantity is : ", scale)
-                if (scale < smallestScaleObject["scale"]) {
-                    smallestScaleObject["scale"] = scale
-                    smallestScaleObject["route"] = route
-                    smallestScaleObject["totalDistance"] = totalDistance;
-                    smallestScaleObject["totalTime"] = totalTime;
-                }
                 if (totalDistance < smallestDistanceObject["totalDistance"]) {
                     smallestDistanceObject["totalDistance"] = totalDistance;
                     smallestDistanceObject["totalTime"] = totalTime;
-                    smallestDistanceObject["scale"] = scale;
                     smallestDistanceObject["route"] = route;
+                }
+                if (totalTime < smallestTimeObject["totalTime"]) {
+                    smallestTimeObject["totalDistance"] = totalDistance;
+                    smallestTimeObject["totalTime"] = totalTime;
+                    smallestTimeObject["scale"] = scale;
+                    smallestTimeObject["route"] = route;
                 }
             }
 
         }
         else {
-            smallestScaleObject["totalDistance"] = "Infinite";
-            smallestScaleObject["totalTime"] = "Infinite";
-            smallestScaleObject["route"] = null;
-            smallestScaleObject["scale"] = null;
-
             smallestDistanceObject["totalDistance"] = "Infinite";
             smallestDistanceObject["totalTime"] = "Infinite";
             smallestDistanceObject["scale"] = null;
             smallestDistanceObject["route"] = null;
+            
+            smallestTimeObject["totalDistance"] = "Infinite";
+            smallestTimeObject["totalTime"] = "Infinite";
+            smallestTimeObject["scale"] = null;
+            smallestTimeObject["route"] = null;
         }
         console.log("smallestDistanceObject : ", smallestDistanceObject);
-        console.log("smallestScaleObject : ", smallestScaleObject);
+        console.log("smallestTimeObject : ", smallestTimeObject);
 
 
-        let finalAnswerObject, noneScaleTemp;
-        finalAnswerObject = smallestScaleObject;
-        if () {
-
-        }
-        if (smallestDistanceObject["scale"] <= 5 && (smallestDistanceObject["totalDistance"] / smallestScaleObject["totalDistance"]) <= 0.7 ) {
+        let finalAnswerObject;
+        finalAnswerObject = smallestTimeObject;
+        console.log("finalAnswerObject : ", finalAnswerObject)
+        // let alpha = smallestTimeObject["totalDistance"] / smallestDistanceObject["totalDistance"];
+        // let beta = smallestDistanceObject["totalTime"] / smallestTimeObject["totalTime"];
+        // if ((alpha >= 1 && alpha <= 1.3) && (beta >= 1 && beta < 1.3)) {
+        //     finalAnswerObject = smallestDistanceObject;
+        // }
+        
+        let alpha = smallestDistanceObject["scale"] < smallestTimeObject["scale"];
+        if (alpha) {
             finalAnswerObject = smallestDistanceObject;
         }
 
