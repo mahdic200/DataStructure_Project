@@ -12,7 +12,7 @@ class Router
     parentPointKey;
     allRoutes = [];
 
-    breakPoint = 5;
+    breakPoint = 15;
     counter = 0;
 
 
@@ -38,27 +38,37 @@ class Router
 
         this.counter++;
 
-        var currentPoint, parentPointKey, currentPointKey, routeHistory;
+        var currentPoint, parentPointKey, currentPointKey;
+        let routeHistory;
         currentPoint = this.graph[pointsData["currentPointKey"]];
         currentPointKey = pointsData["currentPointKey"];
         parentPointKey = pointsData["parentPointKey"];
         routeHistory = pointsData["routeHistory"];
 
-        console.log('current point : ', pointsData["currentPointKey"], ' parentPointKey : ', parentPointKey, ' routeHistory : ', routeHistory)
+        console.log('current point : ', pointsData["currentPointKey"], ' parentPointKey : ', parentPointKey, ' routeHistory : \n', routeHistory)
 
-        console.log("beggining of the while loop current point key is : " , pointsData["currentPointKey"] ," -> " , currentPoint)
+        // console.log("beggining of the while loop current point key is : " , pointsData["currentPointKey"] ," -> " , currentPoint)
 
         // if related point contains the end point key
         // then push related point data to the routeHistory 
+        let isThisWork = false;
         for(const relatedPoint of currentPoint){
             if (relatedPoint.includes(this.endPointKey))
             {
-                routeHistory.push([currentPointKey, relatedPoint[0], relatedPoint[1] , relatedPoint[2]])
+                let temp_2 = new Array();
+            
+                for (let i = 0; i < routeHistory.length; i++) {
+                    temp_2[i] = routeHistory[i];
+                }
+                temp_2[temp_2.length] = [currentPointKey, relatedPoint[0], relatedPoint[1] , relatedPoint[2]];
+                // temp_2.push([currentPointKey, relatedPoint[0], relatedPoint[1] , relatedPoint[2]])
                 
                 // and here i am collecting all possible routes 
                 // and saving them into the allRoutes property in current object 
-                this.allRoutes.push(routeHistory)
-                console.log("found a straight way / route to end point key !, routeHistory is : ", routeHistory);
+                this.allRoutes.push(temp_2)
+                console.log("found a straight way ! routeHistory is : \n", temp_2);
+                console.log("allRoutes : \n", this.allRoutes);
+                isThisWork = true;
                 return 1;
             }
         }
@@ -72,25 +82,26 @@ class Router
         {
             return 0;
         }
-
-
+        if (isThisWork) {console.log("this mother fucker did not consider upper return :)")};
         for (const relatedPoint of currentPoint) {
-            if (relatedPoint[0] != parentPointKey)
+            let temp = new Array();
+            if ((relatedPoint[0] != parentPointKey) && (relatedPoint[0] != currentPointKey))
             {
-                console.log("relatedPoint in line 80 : ", relatedPoint);
-                let temp = routeHistory;
-                let newArray = new Array();
-                newArray[0] = currentPointKey;
-                newArray[1] = relatedPoint[0];
-                newArray[2] = relatedPoint[1];
-                newArray[3] = relatedPoint[2];
-
+                for (let i = 0; i < routeHistory.length; i++) {
+                    temp[i] = routeHistory[i];
+                }
+                temp[temp.length] = [currentPointKey, relatedPoint[0], relatedPoint[1], relatedPoint[2]];
+                // temp.push([currentPointKey, relatedPoint[0], relatedPoint[1], relatedPoint[2]])
+                console.log("checking what the hell am i passing ",
+                "to next call , temp : \n",
+                temp)
                 this.searchRoute({
                     "currentPointKey": relatedPoint[0],
                     "parentPointKey": currentPointKey,
                     "routeHistory":temp
                 });
             }
+            temp = [];
         }
 
 
@@ -102,7 +113,7 @@ class Router
     fire()
     {
         this.searchRoute();
-        console.log(this.allRoutes);
+        // console.log(this.allRoutes);
     }
 
 
